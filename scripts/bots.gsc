@@ -6,8 +6,7 @@ init()
 {
 	thread manageBotCounts();
 
-	setDvar("botcount", "16");
-
+	setDvar("bot_count", "16");
     setDvar("bots_domove", "0");
 
 	setDvar("testclients_doattack", "0");
@@ -23,7 +22,7 @@ manageBotCounts(){
 	level endon( "exitLevel_called" );
 
     for(;;) {
-         botCount = GetDvarInt( "botcount" );
+         botCount = GetDvarInt( "bot_count" );
             
          if( level.gametype != "sd" && level.players.size < botCount ) {
             addBot();
@@ -77,33 +76,24 @@ initIndividualBot() {
 /**
     Handles the moving of the bot when the dvar bots_domove = 1
  */
-// handleBotMovement(){
-// 	self endon("disconnect");
-
-//     for (;;) {
-//         botsDoMove = GetDvarInt( "bots_domove" );
-
-//         if (botsDoMove != 1) {
-//             self botStop();
-//             continue;
-//         }
-
-//         //Pick a random forward and right int.
-//         forward = randomIntRange(-127, 127);
-//         right = randomIntRange(-127, 127);
-
-//         //Move the bot
-//         self botMovement(forward, right);
-      
-//         wait 3.5;
-//     }
-// }
-
 handleBotMovement(){
 	self endon("disconnect");
 
     for (;;) {
-        self waittill ("bots_domove");
+        botsDoMove = GetDvarInt( "bots_domove" );
+
+        if (botsDoMove != 1) {
+            self botStop();
+            continue;
+        }
+
+        //Pick a random forward and right int.
+        forward = randomIntRange(-127, 127);
+        right = randomIntRange(-127, 127);
+
+        //Move the bot
+        self botMovement(forward, right);
+      
         wait 3.5;
     }
 }

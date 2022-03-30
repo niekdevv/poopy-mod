@@ -43,7 +43,7 @@ monitorGrenades() {
 	
 	for(;;) {
 		self waittill( "grenade_fire", grenade, weaponName );
-		self maps\mp\perks\_perks::givePerk( weaponName );
 		wait 2.50;
+		self maps\mp\perks\_perks::givePerk( weaponName );
 	}
 }
