@@ -1,0 +1,218 @@
+{
+	menuDef
+	{
+		name "mapselect"
+		rect 0 0 640 480 0 0
+		forecolor 1 1 1 1
+		focuscolor 1 1 1 1
+		blurWorld 7
+		onOpen
+		{
+			focusfirst;
+		}
+		onEsc
+		{
+			scriptmenuresponse "back";
+		}
+		execKey "f"
+		{
+			play "mouse_click";
+			open "popup_friends";
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			decoration
+			visible 1
+			style 3
+			forecolor 0 0 0 0.4
+			background "white"
+			textscale 0.55
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			style 3
+			decoration
+			visible 1
+			forecolor 1 1 1 0
+			background "mockup_bg_glow"
+			textscale 0.55
+			exp forecolor a ( ( ( sin( milliseconds( ) / 1500 ) + 1 ) * 0.25 ) + 0.25 )
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			style 3
+			decoration
+			visible 1
+			forecolor 1 1 1 0
+			background "mockup_bg_glow"
+			textscale 0.55
+			exp forecolor a ( ( ( sin( milliseconds( ) / 480 ) + 1 ) * 0.25 ) + 0.25 )
+		}
+		itemDef
+		{
+			rect 200 0 200 28 1 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			disablecolor 0.6 0.55 0.55 1
+			textfont 9
+			textalign 5
+			textalignx 0
+			textscale 0.5
+			text "SELECT A MAP YOU WANT TO START"
+		}
+
+
+#define MAP_BUTTON(index,name,mapname) \
+		itemDef \
+		{ \
+			name "select_map" \
+			rect (125 + (100 * (index % 4))) (28 + (15 * (index / 5))) 125 15 1 1 \
+			visible 1 \
+			group "mw2_button" \
+			style 1 \
+			forecolor 1 1 1 1 \
+			disablecolor 0.6 0.55 0.55 1 \
+			background "white" \
+			type 1 \
+			textfont 3 \
+			textalign 5 \
+			textalignx 0 \
+			textscale 0.30 \
+		    text name \
+            disabled when(!dvarBool("party_host")) \
+			action \
+			{ \
+				play "mouse_click"; \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+				scriptmenuresponse mapname; \
+			} \
+			onFocus \
+			{ \
+				play "mouse_over"; \
+				setItemColor self backcolor 0 0 0 1; \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+			} \
+		} \
+
+	MAP_BUTTON(0, "Reload current map", "reload_map")
+    MAP_BUTTON(1, "Afghan", "mp_afghan")
+    MAP_BUTTON(2, "Bailout", "mp_complex")
+    MAP_BUTTON(3, "Bloc", "mp_bloc")
+    MAP_BUTTON(4, "Bog", "mp_bog_sh")
+    MAP_BUTTON(5, "Carnival", "mp_abandon")
+    MAP_BUTTON(6, "Chemical Plant", "mp_storm_spring")
+    MAP_BUTTON(7, "Crash", "mp_crash")
+    MAP_BUTTON(8, "Crash Tropical", "mp_crash_tropical")
+    MAP_BUTTON(9, "Crossfire", "mp_crossfire")
+    MAP_BUTTON(10, "Derail", "mp_derail")
+    MAP_BUTTON(11, "Estate", "mp_estate")
+    MAP_BUTTON(12, "Estate Tropical", "mp_estate_tropical")
+    MAP_BUTTON(13, "Favela", "mp_favela")
+    MAP_BUTTON(14, "Favela Tropical", "mp_fav_tropical")
+    MAP_BUTTON(15, "Firing Range", "mp_firingrange")
+    MAP_BUTTON(16, "Forgotten City", "mp_bloc_sh")
+    MAP_BUTTON(17, "Freighter", "mp_cargoship_sh")
+    MAP_BUTTON(18, "Fuel", "mp_fuel2")
+    MAP_BUTTON(19, "Highrise", "mp_highrise")
+    MAP_BUTTON(20, "Invasion", "mp_invasion")
+    MAP_BUTTON(21, "Karachi", "mp_checkpoint")
+    MAP_BUTTON(22, "Killhouse", "mp_killhouse")
+    MAP_BUTTON(23, "Nuketown", "mp_nuked")
+    MAP_BUTTON(24, "Oil Rig", "oilrig")
+    MAP_BUTTON(25, "Overgrown", "mp_overgrown")
+    MAP_BUTTON(26, "Quarry", "mp_quarry")
+    MAP_BUTTON(27, "Rundown", "mp_rundown")
+    MAP_BUTTON(28, "Rust", "mp_rust")
+    MAP_BUTTON(29, "Rust Long", "mp_rust_long")
+    MAP_BUTTON(30, "Salvage", "mp_compact")
+    MAP_BUTTON(31, "Scrapyard", "mp_boneyard")
+    MAP_BUTTON(32, "Shipment", "mp_shipment")
+    MAP_BUTTON(33, "Shipment Long", "mp_shipment_long")
+    MAP_BUTTON(34, "Skidrow", "mp_nightshift")
+    MAP_BUTTON(35, "Storm", "mp_storm")
+    MAP_BUTTON(36, "Strike", "mp_strike")
+    MAP_BUTTON(37, "Sub Base", "mp_subbase")
+    MAP_BUTTON(38, "Terminal", "mp_terminal")
+    MAP_BUTTON(39, "Trailer Park", "mp_trailerpark")
+    MAP_BUTTON(40, "Underpass", "mp_underpass")
+    MAP_BUTTON(41, "Vacant", "mp_vacant")
+    MAP_BUTTON(42, "Village", "co_hunted")
+    MAP_BUTTON(43, "Wasteland", "mp_brecourt")
+    MAP_BUTTON(44, "Wet Work", "mp_cargoship")
+    MAP_BUTTON(45, "WAW Castle", "mp_waw_castle")
+    MAP_BUTTON(46, "WAW Castle Night", "mp_waw_castle_night")
+    MAP_BUTTON(47, "WAW Toujane", "mp_waw_toujane")
+    MAP_BUTTON(48, "XMAS HW", "mp_xmas_hw")
+    MAP_BUTTON(49, "ZOM Building", "mp_zom_building")
+    MAP_BUTTON(50, "Warehouse", "mp_warehouse_13")
+    MAP_BUTTON(51, "Vovelll", "mp_vovel")
+    MAP_BUTTON(52, "Toybox B2", "mp_toybox4_b2")
+    MAP_BUTTON(53, "WAW Toujane V2", "mp_toujane_v2")
+    MAP_BUTTON(54, "Storeroom V2", "mp_storeroom_v2")
+    MAP_BUTTON(55, "Storeroom", "mp_storeroom")
+    MAP_BUTTON(56, "SPS Bismark", "mp_sps_bismarck")
+    MAP_BUTTON(57, "Shariqi", "mp_sharqi")
+    MAP_BUTTON(58, "SFS Minecraft", "mp_sfs_minecraft")
+    MAP_BUTTON(59, "C4S Minecraft", "mp_c4s_minecraft")
+    MAP_BUTTON(60, "Settlement", "mp_settlement")
+    MAP_BUTTON(61, "Seti", "mp_seti")
+    MAP_BUTTON(62, "RD XMAS", "mp_rd_xmas")
+    MAP_BUTTON(63, "Rats Sansa Room", "mp_rats_sansa_room")
+    MAP_BUTTON(64, "Rat Room V1", "mp_ratroom_v1")
+    MAP_BUTTON(65, "PVAL", "mp_pval")
+    MAP_BUTTON(66, "OSG Jungle", "mp_osg_jungle")
+    MAP_BUTTON(67, "OSG Freight", "mp_osg_freight")
+    MAP_BUTTON(68, "OSG Drone P", "mp_osg_drone_p")
+    MAP_BUTTON(69, "OSG Carrier P", "mp_osg_carrier_p")
+    MAP_BUTTON(70, "OSG Abbottabad", "mp_osg_abbottabad")
+    MAP_BUTTON(71, "MTL The Rock", "mp_mtl_the_rock")
+    MAP_BUTTON(72, "More Backlot Fun", "mp_more_backlot_fun")
+    MAP_BUTTON(73, "Modern Rooftops", "mp_modern_rooftops")
+    MAP_BUTTON(74, "Mirage B3", "mp_mirage_b3")
+    MAP_BUTTON(75, "Mashtuur City", "mp_mashtuurcity")
+    MAP_BUTTON(76, "Luna", "mp_luna")
+    MAP_BUTTON(77, "Lost", "mp_lost")
+    MAP_BUTTON(78, "LOL V2 Nite", "mp_lolv2nite")
+    MAP_BUTTON(79, "Killhouse 2", "mp_killhouse_2")
+    MAP_BUTTON(80, "KH 1", "mp_kh1")
+    MAP_BUTTON(81, "K4F Raid", "mp_k4f_raid")
+    MAP_BUTTON(82, "Humberstone", "mp_humberstone")
+    MAP_BUTTON(83, "Highwire", "mp_highwire")
+    MAP_BUTTON(84, "Garena", "mp_garena")
+    MAP_BUTTON(85, "FR Mogadishu v2", "mp_fr_mogadishu_v2")
+    MAP_BUTTON(86, "Foxhunt Ruins", "mp_foxhunt_ruins")
+    MAP_BUTTON(87, "Fart House", "mp_fart_house")
+    MAP_BUTTON(88, "Desert Dock 2", "mp_desert_dock_2")
+    MAP_BUTTON(89, "Creek", "mp_creek")
+    MAP_BUTTON(90, "Countdown", "mp_countdown")
+    MAP_BUTTON(91, "Convoy", "mp_convoy")
+    MAP_BUTTON(92, "BO2 Yemen", "mp_bo2yemen")
+    MAP_BUTTON(93, "BO2 Turbine", "mp_bo2turbine")
+    MAP_BUTTON(94, "BO2 Standoff", "mp_bo2standoff")
+    MAP_BUTTON(95, "BO2 Mir", "mp_bo2mir")
+    MAP_BUTTON(96, "BO2 Cove", "mp_bo2cove")
+    MAP_BUTTON(97, "BJ Wifi Port", "mp_bjwifi_port")
+    MAP_BUTTON(98, "BJ Wifi Aim", "mp_bjwifi_aim")
+    MAP_BUTTON(99, "Beta NL", "mp_betatnl")
+    MAP_BUTTON(100, "Bandit", "mp_bandit")
+    MAP_BUTTON(101, "Backlot", "mp_backlot")
+    MAP_BUTTON(102, "Aosta valley", "mp_aosta_valley")
+    MAP_BUTTON(103, "Ancient", "mp_ancient")
+    MAP_BUTTON(104, "78 Workshop", "mp_78workshop")
+    MAP_BUTTON(105, "78 Railyard", "mp_78railyard")
+    MAP_BUTTON(106, "4T4 Scrap Snow", "mp_4t4scrap_s")
+    MAP_BUTTON(107, "4T4 Scrap", "mp_4t4scrap")
+    MAP_BUTTON(108, "Family Guy", "mp_family_beta")
+    MAP_BUTTON(109, "Poolday", "mp_poolday")
+    MAP_BUTTON(110, "Blackrock", "mp_blackrock")
+
+
+    }
+}

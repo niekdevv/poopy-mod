@@ -83,17 +83,25 @@ handleBotMovement(){
         botsDoMove = GetDvarInt( "bots_domove" );
 
         if (botsDoMove != 1) {
-            self botStop();
-            continue;
+            if (self.pers["movement_stopped"] != true) {
+                self.pers["movement_stopped"] = true;
+                self botStop();
+            }
+
+           wait 1;
+        } else {
+
+            if (self.pers["movement_stopped"] == true) {
+                self.pers["movement_stopped"] = false;
+            }
+
+            //Pick a random forward and right int.
+            forward = randomIntRange(-50, 50);
+            right = randomIntRange(-50, 50);
+
+            //Move the bot
+            self botMovement(forward, right);
+            wait 2;
         }
-
-        //Pick a random forward and right int.
-        forward = randomIntRange(-127, 127);
-        right = randomIntRange(-127, 127);
-
-        //Move the bot
-        self botMovement(forward, right);
-      
-        wait 3.5;
     }
 }

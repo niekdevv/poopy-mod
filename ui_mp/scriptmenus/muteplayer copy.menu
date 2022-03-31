@@ -1,0 +1,379 @@
+{
+	menuDef
+	{
+		name "muteplayer"
+		rect 0 0 640 480 0 0
+		forecolor 1 1 1 1
+		focuscolor 1 1 1 1
+		blurWorld 7
+		onOpen
+		{
+			focusfirst;
+			setLocalVarString "menuStage" ( "SELECT_CLASS" );
+			setLocalVarString "classNumChange" ( "none" );
+			setLocalVarString "classNumChangeSub1" ( "none" );
+			setLocalVarString "weaponType" ( "none" );
+			setLocalVarString "selectedWeapon" ( "none" );
+		}
+		onEsc
+		{
+			scriptmenuresponse "back";
+		}
+		execKey "f"
+		{
+			play "mouse_click";
+			open "popup_friends";
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			decoration
+			visible 1
+			style 3
+			forecolor 0 0 0 0.4
+			background "white"
+			textscale 0.55
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			style 3
+			decoration
+			visible 1
+			forecolor 1 1 1 0
+			background "mockup_bg_glow"
+			textscale 0.55
+			exp forecolor a ( ( ( sin( milliseconds( ) / 1500 ) + 1 ) * 0.25 ) + 0.25 )
+		}
+		itemDef
+		{
+			rect 0 0 640 480 4 4
+			style 3
+			decoration
+			visible 1
+			forecolor 1 1 1 0
+			background "mockup_bg_glow"
+			textscale 0.55
+			exp forecolor a ( ( ( sin( milliseconds( ) / 480 ) + 1 ) * 0.25 ) + 0.25 )
+		}
+		itemDef
+		{
+			rect 50 0 200 28 1 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			disablecolor 0.6 0.55 0.55 1
+			textfont 9
+			textalign 5
+			textalignx 0
+			textscale 0.5
+			hidden when ( localVarString( "classNumChange" ) != "none" )
+			text "CLASS NUMBER"
+		}
+		itemDef
+		{
+			rect 300 0 150 28 1 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			disablecolor 0.6 0.55 0.55 1
+			textfont 9
+			textalign 5
+			textalignx 0
+			textscale 0.5
+			hidden when ( localVarString( "classNumChange" ) == "none" )
+			disabled when ( localVarString( "weaponType" ) != "none" )
+			visible when ( localVarString( "classNumChange" ) != "none" )
+			text "CLASS TYPE"
+		}
+		itemDef
+		{
+			rect 450 0 150 28 1 1
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			disablecolor 0.6 0.55 0.55 1
+			textfont 9
+			textalign 5
+			textalignx 0
+			textscale 0.5
+			visible when ( localVarString( "weaponType" ) != "none" )
+			visible when ( localVarString( "classNumChangeSub1" ) != "none" )
+			text "SELECT WEAPON" 
+		}
+		
+#define CLASS_BUTTON(index,classname) \
+		itemDef \
+		{ \
+			name "edit_class_custom" \
+			rect 50 (28 + (20 * index)) 200 20 1 1 \
+			visible 1 \
+			group "mw2_button" \
+			style 1 \
+			forecolor 1 1 1 1 \
+			disablecolor 0.6 0.55 0.55 1 \
+			background "white" \
+			type 1 \
+			textfont 3 \
+			textalign 5 \
+			textalignx 0 \
+			textscale 0.35 \
+			disabled when( localVarString( "classNumChange" ) != "none" ) \
+			exp text ( getplayerdata( "customClasses" , index , "name" ) ) \
+			action \
+			{ \
+				play "mouse_click"; \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+				setLocalVarString "classNumChange" ( index ); \
+				scriptmenuresponse classname; \
+			} \
+			onFocus \
+			{ \
+				play "mouse_over"; \
+				setItemColor self backcolor 0 0 0 1; \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+			} \
+		}
+
+		// custom classes
+		CLASS_BUTTON(0, "custom1")
+		CLASS_BUTTON(1, "custom2")
+		CLASS_BUTTON(2, "custom3")
+		CLASS_BUTTON(3, "custom4")
+		CLASS_BUTTON(4, "custom5")
+		CLASS_BUTTON(5, "custom6")
+		CLASS_BUTTON(6, "custom7")
+		CLASS_BUTTON(7, "custom8")
+		CLASS_BUTTON(8, "custom9")
+		CLASS_BUTTON(9, "custom10")
+		CLASS_BUTTON(10, "custom11")
+		CLASS_BUTTON(11, "custom12")
+		CLASS_BUTTON(12, "custom13")
+		CLASS_BUTTON(13, "custom14")
+		CLASS_BUTTON(14, "custom15")
+		
+#define CUSTOM_SUB(index,option,param) \
+		itemDef \
+		{ \
+			name "custom_sub" \
+			rect 250 (28 + (20 * index)) 200 20 1 1 \
+			visible 1 \
+			group "mw2_button" \
+			style 1 \
+			forecolor 1 1 1 1 \
+			disablecolor 0.6 0.55 0.55 1 \
+			background "white" \
+			type 1 \
+			textfont 3 \
+			textalign 5 \
+			textalignx 0 \
+			textscale 0.35 \
+			visible when ( localVarString( "weapon" ) != "none" ) \
+			text option \
+			action \
+			{ \
+				play "mouse_click"; \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+				setLocalVarString "classNumChangeSub1" ( option ); \
+				scriptmenuresponse param; \
+			} \
+			onFocus \ 
+			{ \
+				play "mouse_over"; \
+				setItemColor self backcolor 0 0 0 1; \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+			} \
+		} \ 
+		
+		CUSTOM_SUB(0, "PRIMARY", "type,primary")
+		CUSTOM_SUB(1, "SECONDARY", "type,secondary")
+		
+#define CUSTOM_WEAPON_PRIMARY(index,option) \
+		itemDef \
+		{ \
+			name "custom_sub" \
+			rect 450 (28 + (20 * index)) 200 20 1 1 \
+			visible 1 \
+			group "mw2_button" \
+			style 1 \
+			forecolor 1 1 1 1 \
+			disablecolor 0.6 0.55 0.55 1 \
+			background "white" \
+			type 1 \
+			textfont 3 \
+			textalign 5 \
+			textalignx 0 \
+			textscale 0.35 \
+			visible when ( localVarString( "classNumChangeSub1" ) == "PRIMARY" ) \
+			disabled when( localVarString( "weaponType" ) != "none" ) \
+			text option \
+			action \
+			{ \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+				setLocalVarString "weaponType" ( weaponType ); \
+				scriptmenuresponse param; \
+			} \
+			onFocus \ 
+			{ \
+				play "mouse_over"; \
+				setItemColor self backcolor 0 0 0 1; \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+			} \
+		} \ 
+		
+CUSTOM_WEAPON_PRIMARY(0, "SNIPER")
+CUSTOM_WEAPON_PRIMARY(1, "MISC")
+		
+#define CUSTOM_WEAPON_SECONDARY(index,weaponType) \
+		itemDef \
+		{ \
+			name "custom_sub" \
+			rect 450 (28 + (20 * index)) 200 20 1 1 \
+			visible 1 \
+			group "mw2_button" \
+			style 1 \
+			forecolor 1 1 1 1 \
+			disablecolor 0.6 0.55 0.55 1 \
+			background "white" \
+			type 1 \
+			textfont 3 \
+			textalign 5 \
+			textalignx 0 \
+			textscale 0.35 \
+			visible when ( localVarString( "classNumChangeSub1" ) == "SECONDARY" ) \
+			disabled when( localVarString( "weaponType" ) != "none" ) \
+			text weaponType \
+			action \
+			play "mouse_click"; \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+				setLocalVarString "weaponType" ( weaponType ); \
+				scriptmenuresponse param; \
+			onFocus \ 
+			{ \
+				play "mouse_over"; \
+				setItemColor self backcolor 0 0 0 1; \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+			} \
+		} \ 
+	}
+}
+CUSTOM_WEAPON_SECONDARY(0, "SNIPER")
+CUSTOM_WEAPON_SECONDARY(1, "MISC")
+
+#define WEAPON_SNIPERS(index,option,weapon) \
+		itemDef \
+		{ \
+			name "custom_sub" \
+			rect 450 (28 + (20 * index)) 200 20 1 1 \
+			visible 1 \
+			group "mw2_button" \
+			style 1 \
+			forecolor 1 1 1 1 \
+			disablecolor 0.6 0.55 0.55 1 \
+			background "white" \
+			type 1 \
+			textfont 3 \
+			textalign 5 \
+			textalignx 0 \
+			textscale 0.35 \
+			visible when ( localVarString( "weaponType" ) == "SNIPER" ) \
+			text option \
+			action \
+			{ \
+				play "mouse_click"; \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+				scriptmenuresponse weapon; \
+				close self; \
+			} \
+			onFocus \ 
+			{ \
+				play "mouse_over"; \
+				setItemColor self backcolor 0 0 0 1; \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+			} \
+		} \ 
+		
+
+	}
+}
+
+WEAPON_SNIPERS(0, "DSR50", "gun,barrett_silencer_xmags_mp")
+		WEAPON_SNIPERS(1, "USR", "gun,cheytac_silencer_xmags_mp")
+		WEAPON_SNIPERS(2, "LYNX", "gun,m21_silencer_xmags_mp")
+		WEAPON_SNIPERS(3, "LOCUS", "gun,wa2000_silencer_xmags_mp")
+		WEAPON_SNIPERS(4, "MORS", "gun,wa2000_silencer_thermal_mp")
+		WEAPON_SNIPERS(5, "AS50", "gun,barrett_heartbeat_thermal_mp")
+		WEAPON_SNIPERS(6, "PSG1", "gun,barrett_silencer_thermal_mp")
+		WEAPON_SNIPERS(7, "MSR", "gun,cheytac_heartbeat_thermal_mp")
+		WEAPON_SNIPERS(8, "RSA", "gun,cheytac_silencer_thermal_mp")
+		WEAPON_SNIPERS(9, "KOSHKA", "gun,m21_silencer_thermal_mp")
+		WEAPON_SNIPERS(10, "L96A1", "gun,m21_heartbeat_thermal_mp")
+		WEAPON_SNIPERS(11, "Ballista", "gun,wa2000_heartbeat_thermal_mp")
+		WEAPON_SNIPERS(12, "M40A3 Acog", "gun,cheytac_thermal_xmags_mp")
+		WEAPON_SNIPERS(13, "R700", "gun,barrett_thermal_xmags_mp")
+		WEAPON_SNIPERS(14, "PTRS", "gun,cheytac_heartbeat_xmags_mp")
+		WEAPON_SNIPERS(15, "Arisaka", "gun,m21_thermal_xmags_mp")
+		WEAPON_SNIPERS(16, "SVU", "gun,wa2000_thermal_xmags_mp")
+		WEAPON_SNIPERS(17, "RSASS", "gun,barrett_heartbeat_xmags_mp")
+		WEAPON_SNIPERS(18, "Intervention", "gun,cheytac_fmj_xmags_mp")
+		WEAPON_SNIPERS(19, "Barret", "gun,barrett_fmj_xmags_mp")
+
+#define WEAPON_MISC(index,option,weapon) \
+		itemDef \
+		{ \
+			name "custom_sub" \
+			rect 450 (28 + (20 * index)) 200 20 1 1 \
+			visible 1 \
+			group "mw2_button" \
+			style 1 \
+			forecolor 1 1 1 1 \
+			disablecolor 0.6 0.55 0.55 1 \
+			background "white" \
+			type 1 \
+			textfont 3 \
+			textalign 5 \
+			textalignx 0 \
+			textscale 0.35 \
+			visible when ( localVarString( "weaponType" ) == "MISC" ) \
+			text option \
+			action \
+			{ \
+				play "mouse_click"; \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+				scriptmenuresponse weapon; \
+				close self; \
+			} \
+			onFocus \ 
+			{ \
+				play "mouse_over"; \
+				setItemColor self backcolor 0 0 0 1; \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self backcolor 0 0 0 "0.0"; \
+			} \
+		} \ 
+	
+	}
+}
+
+WEAPON_MISC(0, "Thundergun", "gun,deserteagle_fmj_tactical_mp")
+		WEAPON_MISC(1, "M1 Irons", "gun,coltanaconda_fmj_tactical_mp")
+		WEAPON_MISC(2, "Raygun", "gun,beretta_fmj_tactical_mp")
+		WEAPON_MISC(3, "FMG9", "gun,glock_fmj_silencer_mp")
+		WEAPON_MISC(4, "XM25", "gun,usp_fmj_tactical_mp")
